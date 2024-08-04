@@ -482,7 +482,7 @@ EXPORT(int, sceAvPlayerPostInit) {
 EXPORT(int, sceAvPlayerResume, SceUID player_handle) {
     const auto state = emuenv.kernel.obj_store.get<AvPlayerState>();
     const PlayerPtr &player_info = lock_and_find(player_handle, state->players, state->mutex);
-    if (!player_info->paused) {
+    if (player_info->paused) {
         const auto thread = emuenv.kernel.get_thread(thread_id);
         run_event_callback(emuenv, thread, player_info, SCE_AVPLAYER_STATE_PLAY, 0, Ptr<void>(0));
     }
